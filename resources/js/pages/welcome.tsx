@@ -1,8 +1,8 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { dashboard, login } from '@/routes';
 import { type SharedData } from '@/types';
-import Modal from '@/components/modal';
 import React from 'react';
+import Modal from '@/components/modal';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
