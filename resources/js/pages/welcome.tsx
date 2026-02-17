@@ -1,9 +1,29 @@
 import { Head, Link, usePage } from '@inertiajs/react';
 import { dashboard, login } from '@/routes';
 import { type SharedData } from '@/types';
+import Modal from '@/components/modal';
+import React from 'react';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
+    interface BankDetail {
+        bank: string;
+        number: string;
+        name: string;
+        logo: string;
+    }
+
+    const [showCoffeeModal, setShowCoffeeModal] = React.useState(false);
+    const bankDetails: BankDetail[] = [
+        { bank: 'Mandiri', number: '1430032353797', name: 'Rifjan Jundila', logo: '/logo-bca.png' },
+        { bank: 'BRI', number: '619401026990533', name: 'Rifjan Jundila', logo: '/logo-bca.png' },
+    ];
+
+    const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text).then(() => {
+        alert('Nomor rekening berhasil disalin!');
+    });
+    };
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-zinc-950 font-sans selection:bg-indigo-500 selection:text-white">
@@ -30,12 +50,20 @@ export default function Welcome() {
                                 Dashboard
                             </Link>
                         ) : (
-                            <Link
-                                href={login()}
-                                className="px-6 py-2.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold text-sm hover:bg-slate-800 dark:hover:bg-slate-100 hover:shadow-xl active:scale-95 transition-all duration-200"
-                            >
-                                Masuk Ke Sistem
-                            </Link>
+                            <>
+                                <Link
+                                    href={login()}
+                                    className="px-6 py-2.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold text-sm hover:bg-slate-800 dark:hover:bg-slate-100 hover:shadow-xl active:scale-95 transition-all duration-200"
+                                >
+                                    Masuk Ke Sistem
+                                </Link>
+                                <button
+                                    onClick={() => setShowCoffeeModal(true)}
+                                    className="px-6 py-2.5 rounded-full bg-white border border-slate-900 dark:bg-slate-900 text-slate-900 dark:text-white font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-xl active:scale-95 transition-all duration-200"
+                                >
+                                    Support System
+                                </button>
+                            </>
                         )}
                     </div>
                 </div>
@@ -75,8 +103,11 @@ export default function Welcome() {
                                     Mulai Sekarang
                                 </Link>
                              )}
-                            <button className="p-4 rounded-2xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-600 dark:text-slate-400 font-bold hover:shadow-lg transition-all">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4V8z"/></svg>
+                            <button
+                                onClick={() => setShowCoffeeModal(true)}
+                                className="px-8 py-4 rounded-2xl bg-white border border-slate-900 dark:bg-slate-900 text-slate-900 dark:text-white font-semibold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 hover:shadow-xl active:scale-95 transition-all duration-200"
+                            >
+                                Support System
                             </button>
                         </div>
 
@@ -120,6 +151,86 @@ export default function Welcome() {
                     </div>
                 </div>
             </main>
+            {/* Donation Modal */}
+            <Modal show={showCoffeeModal} onClose={() => setShowCoffeeModal(false)} maxWidth="md">
+                <div className="p-8">
+                    <div className="text-center mb-8">
+                    <div className="w-20 h-20 bg-islamic-sage rounded-[32px] flex items-center justify-center text-islamic-green mx-auto mb-6">
+                        <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                        />
+                        </svg>
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Dukungan Ngaji Yuk</h2>
+                    <p className="text-gray-500 text-sm font-medium">
+                        Bantu kami terus mengembangkan fitur-fitur bermanfaat untuk umat. Setiap dukungan sangat berarti.
+                    </p>
+                    </div>
+
+                    <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 custom-scrollbar">
+                    {bankDetails.map((detail, idx) => (
+                        <div
+                        key={idx}
+                        className="bg-gray-50 rounded-[28px] p-6 border border-gray-100 relative overflow-hidden group hover:border-islamic-green/30 transition-all"
+                        >
+                        <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-10 transition-opacity">
+                            <img src={detail.logo} alt={detail.bank} className="h-10 grayscale" />
+                        </div>
+
+                        <div className="relative z-10 text-left">
+                            <p className="text-[10px] font-bold text-islamic-gold uppercase tracking-[0.2em] mb-4">
+                            Transfer {detail.bank}
+                            </p>
+                            <div className="space-y-4">
+                            <div>
+                                <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">Nomor Rekening</p>
+                                <div className="flex items-center justify-between bg-white px-4 py-3 rounded-2xl border border-gray-100 group-hover:border-islamic-green/20 transition-all">
+                                <p className="text-lg font-mono font-bold text-gray-900 tracking-wider">{detail.number}</p>
+                                <button
+                                    onClick={() => copyToClipboard(detail.number)}
+                                    className="text-islamic-green hover:text-emerald-700 p-2 hover:bg-islamic-green/10 rounded-xl transition-all active:scale-90"
+                                    title="Salin Nomor Rekening"
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+                                    />
+                                    </svg>
+                                </button>
+                                </div>
+                            </div>
+                            <div>
+                                <p className="text-[10px] text-gray-400 font-bold uppercase mb-1">Nama Pemilik</p>
+                                <p className="text-base font-bold text-gray-900 pl-1">{detail.name}</p>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                    ))}
+                    </div>
+
+                    <div className="mt-8">
+                    <button
+                        onClick={() => setShowCoffeeModal(false)}
+                        className="w-full bg-gray-900 text-white py-4 rounded-2xl font-bold hover:bg-gray-800 transition shadow-lg shadow-black/10"
+                    >
+                        Selesai
+                    </button>
+                    </div>
+
+                    <p className="mt-6 text-[10px] text-center text-gray-400 font-medium uppercase tracking-widest">
+                    Jazaakumullahu Khayran Katsiran
+                    </p>
+                </div>
+            </Modal>
+
         </div>
     );
 }
