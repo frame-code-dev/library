@@ -165,7 +165,7 @@ export default function Welcome() {
                         />
                         </svg>
                     </div>
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Dukungan Ngaji Yuk</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Dukungan Perpustakaan Digital</h2>
                     <p className="text-gray-500 text-sm font-medium">
                         Bantu kami terus mengembangkan fitur-fitur bermanfaat untuk umat. Setiap dukungan sangat berarti.
                     </p>
