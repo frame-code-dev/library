@@ -18,6 +18,8 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
+            'app_name' => 'required|string|max:255',
+            'school_name' => 'nullable|string|max:255',
             'fine_per_day' => 'required|numeric|min:0',
             'borrow_duration' => 'required|numeric|min:1',
         ]);

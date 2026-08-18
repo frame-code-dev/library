@@ -5,7 +5,7 @@ import React from 'react';
 import Modal from '../components/Modal';
 
 export default function Welcome() {
-    const { auth } = usePage<SharedData>().props;
+    const { auth, name, school_name } = usePage<SharedData>().props as any;
     interface BankDetail {
         bank: string;
         number: string;
@@ -37,7 +37,7 @@ export default function Welcome() {
                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/><path d="M4 20h16"/></svg>
                         </div>
                         <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-indigo-900 to-indigo-700 dark:from-white dark:to-slate-400">
-                            Perpustakaan <span className="text-indigo-600 dark:text-indigo-400">Apps</span>
+                            {name || 'Perpustakaan Digital'}
                         </span>
                     </div>
 
@@ -75,7 +75,7 @@ export default function Welcome() {
                     <div className="space-y-8">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 text-indigo-600 dark:text-indigo-400 text-sm font-medium animate-fade-in">
                             <span className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></span>
-                            Sistem Informasi Perpustakaan Digital
+                            {school_name ? `Perpustakaan Digital ${school_name}` : 'Sistem Informasi Perpustakaan Digital'}
                         </div>
 
                         <h1 className="text-5xl lg:text-7xl font-extrabold leading-[1.1] text-slate-900 dark:text-white tracking-tight">

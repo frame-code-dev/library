@@ -4,13 +4,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
-import { Save, AlertCircle } from 'lucide-react';
+import { Save, AlertCircle, School, Landmark } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import SettingsLayout from '@/layouts/settings/layout';
 
 export default function SettingsIndex({ settings }: { settings: any }) {
     const { data, setData, post, processing, errors, recentlySuccessful } = useForm({
+        app_name: settings.app_name || 'SMPN 3 Satu Atap Sluke',
+        school_name: settings.school_name || 'SMPN 3 Satu Atap Sluke',
         fine_per_day: settings.fine_per_day || '1000',
         borrow_duration: settings.borrow_duration || '7',
     });
@@ -32,8 +34,8 @@ export default function SettingsIndex({ settings }: { settings: any }) {
             <SettingsLayout>
                 <div className="space-y-6">
                     <div>
-                        <h1 className="text-xl font-bold">Kebijakan Perpustakaan</h1>
-                        <p className="text-sm text-muted-foreground">Konfigurasi parameter operasional buku dan denda.</p>
+                        <h1 className="text-xl font-bold">Pengaturan Perpustakaan</h1>
+                        <p className="text-sm text-muted-foreground">Konfigurasi identitas sekolah, nama sistem, serta parameter operasional buku dan denda.</p>
                     </div>
 
                     {recentlySuccessful && (
@@ -43,7 +45,48 @@ export default function SettingsIndex({ settings }: { settings: any }) {
                         </Alert>
                     )}
 
-                    <form onSubmit={submit}>
+                    <form onSubmit={submit} className="space-y-6">
+                        <Card className="border-none shadow-sm">
+                            <CardHeader>
+                                <div className="flex items-center gap-2">
+                                    <School className="w-5 h-5 text-primary" />
+                                    <div>
+                                        <CardTitle className="text-base">Identitas Sekolah & Aplikasi</CardTitle>
+                                        <CardDescription>Atur nama website perpustakaan dan nama sekolah yang tampil di seluruh sistem.</CardDescription>
+                                    </div>
+                                </div>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="app_name">Nama Website / Aplikasi</Label>
+                                    <Input
+                                        id="app_name"
+                                        type="text"
+                                        value={data.app_name}
+                                        onChange={(e) => setData('app_name', e.target.value)}
+                                        className="h-10 transition-all focus:ring-2 focus:ring-primary/20"
+                                        placeholder="Contoh: SMPN 3 Satu Atap Sluke"
+                                        required
+                                    />
+                                    {errors.app_name && <p className="text-xs text-destructive font-medium">{errors.app_name}</p>}
+                                    <p className="text-[10px] text-muted-foreground">Nama ini akan tampil di logo sidebar, header, dan judul halaman.</p>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="school_name">Nama Sekolah / Lembaga</Label>
+                                    <Input
+                                        id="school_name"
+                                        type="text"
+                                        value={data.school_name}
+                                        onChange={(e) => setData('school_name', e.target.value)}
+                                        className="h-10 transition-all focus:ring-2 focus:ring-primary/20"
+                                        placeholder="Contoh: SMPN 3 Satu Atap Sluke"
+                                    />
+                                    {errors.school_name && <p className="text-xs text-destructive font-medium">{errors.school_name}</p>}
+                                </div>
+                            </CardContent>
+                        </Card>
+
                         <Card className="border-none shadow-sm">
                             <CardHeader>
                                 <CardTitle className="text-base">Kebijakan Peminjaman</CardTitle>
@@ -96,7 +139,7 @@ export default function SettingsIndex({ settings }: { settings: any }) {
                         <AlertCircle className="h-4 w-4 text-amber-600" />
                         <AlertTitle className="text-amber-900 font-bold">Peringatan</AlertTitle>
                         <AlertDescription>
-                            Perubahan ini berdampak pada perhitungan transaksi baru.
+                            Perubahan denda dan durasi pinjam berdampak pada perhitungan transaksi peminjaman baru.
                         </AlertDescription>
                     </Alert>
                 </div>
@@ -104,4 +147,3 @@ export default function SettingsIndex({ settings }: { settings: any }) {
         </AppLayout>
     );
 }
-
